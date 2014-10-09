@@ -21,38 +21,48 @@ describe("calculator view", function () {
 	});
 });
 
-describe("calculateRPNExpression",function () {
-	it("should return 7 when passed 2 3 * 1 +",function () {
-		var expression = [2,3,'*',1,'+'];
-		var result = calculateRPNExpression(expression);
-		expect(result.toString()).toBe("7");
+describe("Calculator",function () {
+	var calculator;
+	beforeEach(function() {
+		calculator = new Calculator;
 	});
-	it("should return 8 when passed 2 3 ^",function () {
-		var expression = [2,3,"^"];
-		expect(calculateRPNExpression(expression).toString()).toBe("8");
+	describe("calculateRPNExpression",function () {
+		it("should return 7 when passed 2 3 * 1 +",function () {
+			var expression = [2,3,'*',1,'+'];
+			var result = calculator.calculateRPNExpression(expression);
+			expect(result.toString()).toBe("7");
+		});
+		it("should return 8 when passed 2 3 ^",function () {
+			var expression = [2,3,"^"];
+			expect(calculator.calculateRPNExpression(expression).toString()).toBe("8");
+		});
+		it("should correctly calculate 3 4 2 * 1 5 - 2 3 ^ ^ / +",function () {
+			var expression = [3,4,2,"*",1,5,"-",2,3,"^","^","/","+"];
+			expect(calculator.calculateRPNExpression(expression).toString()).toBe("3.0001220703125");
+		});
 	});
-	it("should correctly calculate 3 4 2 * 1 5 - 2 3 ^ ^ / +",function () {
-		var expression = [3,4,2,"*",1,5,"-",2,3,"^","^","/","+"];
-		expect(calculateRPNExpression(expression).toString()).toBe("3.0001220703125");
-	});
-});
 
-describe("rpnFromInfix",function () {
-	it("should return 1 1 + when passed 1 + 1",function () {
-		var infix = [1,"+",1];
-		expect(rpnFromInfix(infix)).toEqual([1,1,"+"]);
-	});
-	it("should return 2 2 * 3 3 * + when passed 2 * 2 + 3 * 3",function () {
-			var infix = [2,"*",2,"+",3,"*",3];
-			expect(rpnFromInfix(infix)).toEqual([2,2,"*",3,3,"*","+"]);
-	});
-	it("should return 2 2 -3 + * 3 * when passed 2 * (2 + -3) * 3",function () {
-			var infix = [2,"*","(",2,"+",-3,")","*",3];
-			expect(rpnFromInfix(infix)).toEqual([2,2,-3,"+","*",3,"*"]);
-	});
-	it("should return 3 4 2 * 1 5 - 2 3 ^ ^ / +  when passed 3 + 4 * 2 / ( 1 - 5 ) ^ 2 ^ 3",function () {
-		var infix = [3,'+',4,'*',2,'/','(',1,'-',5,')','^',2,'^',3];
-		var expected = [3,4,2,'*',1,5,'-',2,3,'^','^','/','+'];
-		expect(rpnFromInfix(infix)).toEqual(expected);
+	describe("rpnFromInfix",function () {
+		it("should return 1 when passed 1",function () {
+			var infix = [1];
+			expect(calculator.rpnFromInfix(infix)).toEqual([1]);
+		});
+		it("should return 1 1 + when passed 1 + 1",function () {
+			var infix = [1,"+",1];
+			expect(calculator.rpnFromInfix(infix)).toEqual([1,1,"+"]);
+		});
+		it("should return 2 2 * 3 3 * + when passed 2 * 2 + 3 * 3",function () {
+				var infix = [2,"*",2,"+",3,"*",3];
+				expect(calculator.rpnFromInfix(infix)).toEqual([2,2,"*",3,3,"*","+"]);
+		});
+		it("should return 2 2 -3 + * 3 * when passed 2 * (2 + -3) * 3",function () {
+				var infix = [2,"*","(",2,"+",-3,")","*",3];
+				expect(calculator.rpnFromInfix(infix)).toEqual([2,2,-3,"+","*",3,"*"]);
+		});
+		it("should return 3 4 2 * 1 5 - 2 3 ^ ^ / +  when passed 3 + 4 * 2 / ( 1 - 5 ) ^ 2 ^ 3",function () {
+			var infix = [3,'+',4,'*',2,'/','(',1,'-',5,')','^',2,'^',3];
+			var expected = [3,4,2,'*',1,5,'-',2,3,'^','^','/','+'];
+			expect(calculator.rpnFromInfix(infix)).toEqual(expected);
+		});
 	});
 });
