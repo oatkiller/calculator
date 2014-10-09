@@ -1,0 +1,78 @@
+.calculator {
+  width: 320px;
+}
+.calculator .noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.calculator .result-area {
+  min-height: 50px;
+  border-radius: 5px;
+  margin: 1px;
+}
+.calculator .result-area .display-value {
+  text-align: right;
+  padding: 3px 5px 0 5px;
+}
+.calculator .result-area .current-operator {
+  text-align: center;
+}
+.calculator .button {
+  margin: 1px;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 78px;
+  float: left;
+  border-radius: 5px;
+  line-height: 40px;
+  text-align: center;
+}
+.calculator .button.pressed {
+  position: relative;
+  left: 1px;
+  top: 1px;
+}
+.calculator .button.two-cols {
+  width: 158px;
+}
+.calculator .button.two-rows {
+  height: 82px;
+}
+.calculator .button.right {
+  float: right;
+}
+.hacker-desktop {
+  background-color: #333;
+}
+.hacker-desktop .calculator {
+  margin: 10px auto;
+  color: green;
+  font-family: monospace;
+  font-size: 20px;
+  background-color: #333;
+}
+.hacker-desktop .calculator .result-area {
+  background-color: #111;
+}
+.hacker-desktop .calculator .button {
+  background-color: #111;
+}
+.hacker-desktop .calculator .button.pressed {
+  background-color: #000;
+}
+@media screen and (max-width: 500px) {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+}
