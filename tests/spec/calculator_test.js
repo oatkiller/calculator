@@ -54,6 +54,41 @@ describe("calculator view", function () {
 		element.find("[data-role=\"equals\"]").trigger("click");
 		expect(element.find("[data-role=\"displayValue\"]").text()).toBe("1");
 	});
+
+	it("should call calculator.press with 'C' when the C button is pressed",function () {
+		spyOn(Calculator.prototype,"press");
+		element.calculator();
+		element.find("[data-role=\"clear\"]").trigger("click");
+		expect(Calculator.prototype.press).toHaveBeenCalledWith("C");
+	});
+
+	it("should call calculator.press with '/' when the divide button is pressed",function () {
+		spyOn(Calculator.prototype,"press");
+		element.calculator();
+		element.find("[data-role=\"divide\"]").trigger("click");
+		expect(Calculator.prototype.press).toHaveBeenCalledWith("/");
+	});
+
+	it("should call calculator.press with '-' when the subtract button is pressed",function () {
+		spyOn(Calculator.prototype,"press");
+		element.calculator();
+		element.find("[data-role=\"subtract\"]").trigger("click");
+		expect(Calculator.prototype.press).toHaveBeenCalledWith("-");
+	});
+
+	it("should call calculator.press with '*' when the multiply button is pressed",function () {
+		spyOn(Calculator.prototype,"press");
+		element.calculator();
+		element.find("[data-role=\"multiply\"]").trigger("click");
+		expect(Calculator.prototype.press).toHaveBeenCalledWith("*");
+	});
+
+	it("should call calculator.press with '+' when the add button is pressed",function () {
+		spyOn(Calculator.prototype,"press");
+		element.calculator();
+		element.find("[data-role=\"add\"]").trigger("click");
+		expect(Calculator.prototype.press).toHaveBeenCalledWith("+");
+	});
 });
 
 describe("Calculator",function () {
@@ -117,6 +152,12 @@ describe("Calculator",function () {
 			calculator.press(".");
 			expect(calculator.bufferValue()).toBe("11.");
 		});
+		it("should be empty after pressing 1, 1, C",function () {
+			calculator.press(1);
+			calculator.press(1);
+			calculator.press("C");
+			expect(calculator.bufferNotEmpty()).toBe(false);
+		});
 	});
 
 	describe("bufferOperator",function () {
@@ -130,6 +171,11 @@ describe("Calculator",function () {
 		it("should return null after pressing +,=",function () {
 			calculator.press("+");
 			calculator.press("=");
+			expect(calculator.bufferOperator()).toBe(null);
+		});
+		it("should return null after pressing +,C",function () {
+			calculator.press("+");
+			calculator.press("C");
 			expect(calculator.bufferOperator()).toBe(null);
 		});
 	});
@@ -169,6 +215,14 @@ describe("Calculator",function () {
 			calculator.press("1");
 			calculator.press("=");
 			expect(calculator.displayValue()).toBe("4");
+		});
+		it("should be 0 after pressing 1,+,2,=,C",function () {
+			calculator.press(1);
+			calculator.press("+");
+			calculator.press(2);
+			calculator.press("=");
+			calculator.press("C");
+			expect(calculator.displayValue()).toBe("0");
 		});
 	});
 });
