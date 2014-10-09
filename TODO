@@ -1,9 +1,7 @@
-Remove memory buttons
 Restructure JS code
 Reorganize tests
 Test in IE, FF, Safari
 Add documentation
 
 Stretch Goals
-Test in iOS simulator
 Test on physical Android phone

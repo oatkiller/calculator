@@ -10,7 +10,7 @@
 		user-select: none;
 	}
 
-	width: 248px;
+	width: 320px;
 
 	.result-area {
 		min-height: 50px;
@@ -29,7 +29,7 @@
 		margin: 1px;
 		cursor: pointer;
 		.noselect();
-		width: 60px;
+		width: 78px;
 		float: left;
 		border-radius: 5px;
 		line-height: 40px;
@@ -40,7 +40,7 @@
 			top: 1px;
 		}
 		&.two-cols {
-			width: 122px;
+			width: 158px;
 		}
 		&.two-rows {
 			height: 82px;
@@ -54,6 +54,7 @@
 .hacker-desktop {
 	background-color: #333;
 	.calculator {
+		margin: 10px auto;
 		color: green;
 		font-family: monospace;
 		font-size: 20px;
@@ -69,5 +70,12 @@
 				background-color: #000;
 			}
 		}
+	}
+}
+
+@media screen and (max-width : 500px) {
+	html, body {
+		margin: 0;
+		padding: 0;
 	}
 }
