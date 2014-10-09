@@ -1,7 +1,12 @@
 describe("calculator view", function () {
 	var element;
+	var calculator;
+	var buildView = function () {
+		return new CalculatorView(calculator,element);
+	};
 
   beforeEach(function() {
+		calculator = new Calculator;
 		element = $(calculatorHTML);
 		$(document.body).append(element);
   });
@@ -13,14 +18,14 @@ describe("calculator view", function () {
 	it("should show the calculator's displayValue immediately",function () {
 		var expected = "fake display value";
 		spyOn(Calculator.prototype,"displayValue").and.returnValue(expected);
-		element.calculator();
+		buildView().sync();
 		expect(element.find("[data-role=\"displayValue\"]").text()).toBe(expected);
 	});
 
 	it("should show the calculator's buffer operator immediately",function () {
 		var expected = "fake buffer operator";
 		spyOn(Calculator.prototype,"bufferOperator").and.returnValue(expected);
-		element.calculator();
+		buildView().sync();
 		expect(element.find("[data-role=\"bufferOperator\"]").text()).toBe(expected);
 	});
 
@@ -29,80 +34,55 @@ describe("calculator view", function () {
 			spyOn(Calculator.prototype,"bufferOperator").and.callFake(function () {
 				return retval;
 			});
-			element.calculator();
+			var view = buildView();
+			view.sync();
 			expect(element.find("[data-role=\"bufferOperator\"]").text()).toBe(retval);
 
 			// set bufferOperator to null
 			retval = null;
-			// trigger sync by clicking something
-			element.find("[data-role=\"1\"]").trigger("click");
+
+			view.sync();
 
 			expect(element.find("[data-role=\"bufferOperator\"]").text()).toBe("");
 
 	});
+});
 
-	it("should show the calculator's buffer operator immediately after pressing +",function () {
-		element.calculator();
-		element.find("[data-role=\"add\"]").trigger("click");
-		expect(element.find("[data-role=\"bufferOperator\"]").text()).toBe("+");
+describe("calculator controller", function () {
+	var element;
+	var calculator;
+	var buildController = function () {
+		return new CalculatorController(calculator,element);
+	};
+
+  beforeEach(function() {
+		calculator = new Calculator;
+		element = $(calculatorHTML);
+		$(document.body).append(element);
+  });
+
+	afterEach(function () {
+		element.remove();
 	});
 
-	it("should show the calculator's display value immediately after pressing + 1 =",function () {
-		element.calculator();
-		element.find("[data-role=\"add\"]").trigger("click");
-		element.find("[data-role=\"1\"]").trigger("click");
-		element.find("[data-role=\"equals\"]").trigger("click");
-		expect(element.find("[data-role=\"displayValue\"]").text()).toBe("1");
-	});
+	var buttonTest = function (value,buttonRole,buttonName) {
+		it("should trigger press event with data.role === '" + value + "' when the " + buttonName + " button is pressed",function () {
+			var controller = buildController();
+			var handler = jasmine.createSpy("handler");
+			$(controller).on("press",handler);
+			element.find("[data-role=\"" + buttonRole + "\"]").trigger("click");
 
-	it("should call calculator.press with 'C' when the C button is pressed",function () {
-		spyOn(Calculator.prototype,"press");
-		element.calculator();
-		element.find("[data-role=\"clear\"]").trigger("click");
-		expect(Calculator.prototype.press).toHaveBeenCalledWith("C");
-	});
+			expect(handler.calls.mostRecent().args[1].role).toBe(value);
+		});
+	};
 
-	it("should call calculator.press with '/' when the divide button is pressed",function () {
-		spyOn(Calculator.prototype,"press");
-		element.calculator();
-		element.find("[data-role=\"divide\"]").trigger("click");
-		expect(Calculator.prototype.press).toHaveBeenCalledWith("/");
-	});
-
-	it("should call calculator.press with '-' when the subtract button is pressed",function () {
-		spyOn(Calculator.prototype,"press");
-		element.calculator();
-		element.find("[data-role=\"subtract\"]").trigger("click");
-		expect(Calculator.prototype.press).toHaveBeenCalledWith("-");
-	});
-
-	it("should call calculator.press with '*' when the multiply button is pressed",function () {
-		spyOn(Calculator.prototype,"press");
-		element.calculator();
-		element.find("[data-role=\"multiply\"]").trigger("click");
-		expect(Calculator.prototype.press).toHaveBeenCalledWith("*");
-	});
-
-	it("should call calculator.press with '+' when the add button is pressed",function () {
-		spyOn(Calculator.prototype,"press");
-		element.calculator();
-		element.find("[data-role=\"add\"]").trigger("click");
-		expect(Calculator.prototype.press).toHaveBeenCalledWith("+");
-	});
-
-	it("should call calculator.press with '+/-' when the plus-minus button is pressed",function () {
-		spyOn(Calculator.prototype,"press");
-		element.calculator();
-		element.find("[data-role=\"sign-flip\"]").trigger("click");
-		expect(Calculator.prototype.press).toHaveBeenCalledWith("+/-");
-	});
-
-	it("should call calculator.press with '.' when the decimal button is pressed",function () {
-		spyOn(Calculator.prototype,"press");
-		element.calculator();
-		element.find("[data-role=\"decimal\"]").trigger("click");
-		expect(Calculator.prototype.press).toHaveBeenCalledWith(".");
-	});
+	buttonTest('C','clear','C');
+	buttonTest('/','divide','divide');
+	buttonTest('-','subtract','subtract');
+	buttonTest('*','multiply','multiply');
+	buttonTest('+','add','add');
+	buttonTest('+/-','sign-flip','plus-minus');
+	buttonTest('.','decimal','decimal');
 });
 
 describe("Calculator",function () {
