@@ -1,0 +1,66 @@
+@import (reference) "../external/clearfix.less";
+
+.calculator {
+	.noselect {
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+
+	width: 248px;
+
+	.result-area {
+		min-height: 50px;
+		border-radius: 5px;
+		margin: 1px;
+	}
+
+	.button {
+		margin: 1px;
+		cursor: pointer;
+		.noselect();
+		width: 60px;
+		float: left;
+		border-radius: 5px;
+		line-height: 40px;
+		text-align: center;
+		&.pressed {
+			position: relative;
+			left: 1px;
+			top: 1px;
+		}
+		&.two-cols {
+			width: 122px;
+		}
+		&.two-rows {
+			height: 82px;
+		}
+		&.right {
+			float: right;
+		}
+	}
+}
+
+.hacker-desktop {
+	background-color: #333;
+	.calculator {
+		color: green;
+		font-family: monospace;
+		font-size: 20px;
+		background-color: #333;
+
+		.result-area {
+			background-color: #111;
+		}
+
+		.button {
+			background-color: #111;
+			&.pressed {
+				background-color: #000;
+			}
+		}
+	}
+}

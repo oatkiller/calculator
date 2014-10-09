@@ -1,0 +1,9 @@
+You need to load this from a web server. Probably doable using
+
+`python -m SimpleHTTPServer 8080`
+
+Then go with
+
+`open index.html`
+
+And if you're a total Apple fan, you're probably g2g!
