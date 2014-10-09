@@ -3,7 +3,11 @@
 Provide your users with a basic pocket calculator style widget. 
 
 # Using the Library
-TODO, write this
+Copy the calculator.js and styles.css file from dist/ into your project
+
+	$(function () {
+		$(".calculator").calculator();
+	});
 
 # Viewing the Demo
 Serve the root of the repository from a webserver.
@@ -13,6 +17,3 @@ Serve the root of the repository from a webserver.
 
 # Running Tests
 Open SpecRunner.html in a browse
-
-# Gotchas
-The project doesn't use a module system, so several top level variables are exposed.
