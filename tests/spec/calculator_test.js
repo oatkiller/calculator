@@ -89,6 +89,13 @@ describe("calculator view", function () {
 		element.find("[data-role=\"add\"]").trigger("click");
 		expect(Calculator.prototype.press).toHaveBeenCalledWith("+");
 	});
+
+	it("should call calculator.press with '+/-' when the plus-minus button is pressed",function () {
+		spyOn(Calculator.prototype,"press");
+		element.calculator();
+		element.find("[data-role=\"sign-flip\"]").trigger("click");
+		expect(Calculator.prototype.press).toHaveBeenCalledWith("+/-");
+	});
 });
 
 describe("Calculator",function () {
@@ -158,6 +165,17 @@ describe("Calculator",function () {
 			calculator.press("C");
 			expect(calculator.bufferNotEmpty()).toBe(false);
 		});
+		it("should be -9 after pressing 9,+/-",function () {
+			calculator.press(9);
+			calculator.press("+/-");
+			expect(calculator.bufferValue()).toBe("-9");
+		});
+		it("should be 9 after pressing 9,+/-,+/-",function () {
+			calculator.press(9);
+			calculator.press("+/-");
+			calculator.press("+/-");
+			expect(calculator.bufferValue()).toBe("9");
+		});
 	});
 
 	describe("bufferOperator",function () {
@@ -223,6 +241,12 @@ describe("Calculator",function () {
 			calculator.press("=");
 			calculator.press("C");
 			expect(calculator.displayValue()).toBe("0");
+		});
+		it("should be -9 after pressing 9,+,+/-",function () {
+			calculator.press(9);
+			calculator.press("+");
+			calculator.press("+/-");
+			expect(calculator.displayValue()).toBe("-9");
 		});
 	});
 });
