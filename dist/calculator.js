@@ -10267,9 +10267,17 @@ var Calculator = (function () {
 			}
 		},
 
+		bufferHasDecimal : function () {
+			return this.buffer.indexOf(this.DECIMAL) !== -1;
+		},
+
 		press : function (token) {
-			if (this.isNumeric(token) || token === this.DECIMAL) {
+			if (this.isNumeric(token)) {
 				this.buffer.push(token);
+			} else if (token === this.DECIMAL) {
+ 				if (!this.bufferHasDecimal()) {
+					this.buffer.push(token);
+				}
 			} else if (this.tokenIsOperator(token)) {
 				if (this.bufferNotEmpty()) {
 					this.pushBufferToStack();
@@ -10517,6 +10525,26 @@ var CalculatorController = (function () {
 		"9" : 9
 	};
 
+	CalculatorController.prototype.keyboardCharCodesToRoles = {
+		"+" : "+",
+		"-" : "-",
+		"/" : "/",
+		"*" : "*",
+		"=" : "=",
+		"c" : "C",
+		"." : ".",
+		"0" : 0,
+		"1" : 1,
+		"2" : 2,
+		"3" : 3,
+		"4" : 4,
+		"5" : 5,
+		"6" : 6,
+		"7" : 7,
+		"8" : 8,
+		"9" : 9
+	};
+
 	CalculatorController.prototype.bindEvents = function () {
 		this.element.on("click.calculator",".button",$.proxy(function (event) {
 			var role;
@@ -10524,6 +10552,22 @@ var CalculatorController = (function () {
 
 			if (roleKey !== undefined) {
 				role = this.roles[roleKey];
+				$(this).triggerHandler("press",[{role:role}]);
+			}
+		},this));
+		$(document).on("keypress",$.proxy(function (event) {
+			var role;
+			if (event.which === 13) { // Enter
+				role = "=";
+			} else if (event.which === 110) { // n, for negate
+				role = "+/-";
+			} else {
+				var roleKey = String.fromCharCode(event.which);
+				if (this.keyboardCharCodesToRoles.hasOwnProperty(roleKey)) {
+					role = this.keyboardCharCodesToRoles[roleKey];
+				}
+			}
+			if (role !== undefined) {
 				$(this).triggerHandler("press",[{role:role}]);
 			}
 		},this));
@@ -10547,7 +10591,8 @@ var CalculatorView = (function () {
 
 		this.element.
 			find("[data-role=\"displayValue\"]").
-				text(this.calculator.displayValue());
+				text(this.calculator.displayValue()).
+				attr("title",this.calculator.displayValue());
 
 		var bufferOperator = this.calculator.bufferOperator();
 		if (bufferOperator === null) {
