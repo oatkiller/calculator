@@ -163,6 +163,14 @@ describe("Calculator",function () {
 			calculator.press("+/-");
 			expect(calculator.bufferValue()).toBe("9");
 		});
+		it("should be 1.01 after pressing 1,.,0,1,.",function () {
+			calculator.press(1);
+			calculator.press(".");
+			calculator.press(0);
+			calculator.press(1);
+			calculator.press(".");
+			expect(calculator.bufferValue()).toBe("1.01");
+		});
 	});
 
 	describe("bufferOperator",function () {
