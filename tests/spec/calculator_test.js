@@ -24,6 +24,23 @@ describe("calculator view", function () {
 		expect(element.find("[data-role=\"bufferOperator\"]").text()).toBe(expected);
 	});
 
+	it("should show now buffer operator if the calculator no longer has one",function () {
+			var retval = "?";
+			spyOn(Calculator.prototype,"bufferOperator").and.callFake(function () {
+				return retval;
+			});
+			element.calculator();
+			expect(element.find("[data-role=\"bufferOperator\"]").text()).toBe(retval);
+
+			// set bufferOperator to null
+			retval = null;
+			// trigger sync by clicking something
+			element.find("[data-role=\"1\"]").trigger("click");
+
+			expect(element.find("[data-role=\"bufferOperator\"]").text()).toBe("");
+
+	});
+
 	it("should show the calculator's buffer operator immediately after pressing +",function () {
 		element.calculator();
 		element.find("[data-role=\"add\"]").trigger("click");
