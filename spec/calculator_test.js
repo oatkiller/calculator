@@ -22,6 +22,13 @@ describe("calculator view", function () {
 		expect(element.find("[data-role=\"displayValue\"]").text()).toBe(expected);
 	});
 
+	it("should set the displayValue element's title to the calculator's displayValue immediately",function () {
+		var expected = "fake display value";
+		spyOn(Calculator.prototype,"displayValue").and.returnValue(expected);
+		buildView().sync();
+		expect(element.find("[data-role=\"displayValue\"]").attr("title")).toBe(expected);
+	});
+
 	it("should show the calculator's buffer operator immediately",function () {
 		var expected = "fake buffer operator";
 		spyOn(Calculator.prototype,"bufferOperator").and.returnValue(expected);
@@ -83,6 +90,35 @@ describe("calculator controller", function () {
 	buttonTest('+','add','add');
 	buttonTest('+/-','sign-flip','plus-minus');
 	buttonTest('.','decimal','decimal');
+	for (var i = 0; i < 10; i++) {
+		buttonTest(i,i.toString(),i.toString());
+	}
+
+	var keyTest = function (value,keyCode,keyName) {
+		it("should trigger press event with data.role === '" + value + "' when the " + keyName + " key is pressed",function () {
+			var controller = buildController();
+			var handler = jasmine.createSpy("handler");
+			$(controller).on("press",handler);
+			var event = $.Event("keypress",{ which : keyCode });
+			$(document).trigger(event);
+
+			expect(handler.calls.mostRecent().args[1].role).toBe(value);
+		});
+	};
+
+	keyTest("+",43,"+");
+	keyTest("-",45,"-");
+	keyTest("/",47,"/");
+	keyTest("*",42,"*");
+	keyTest("=",61,"=");
+	keyTest("=",13,"Return");
+	keyTest("+/-",110,"n");
+	keyTest("C",99,"c");
+	keyTest(".",46,".");
+	for (var i = 0; i < 10; i++) {
+		// The keyCode for 0 is 48, the keycode for 9 is 57
+		keyTest(i,i + 48,i.toString());
+	}
 });
 
 describe("Calculator",function () {

@@ -17,6 +17,11 @@
 		.display-value {
 			text-align: right;
 			padding: 3px 5px 0 5px;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			&:hover {
+				overflow: visible;
+			}
 		}
 		.current-operator {
 			text-align: center;
