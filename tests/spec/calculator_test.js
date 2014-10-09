@@ -67,9 +67,6 @@ describe("Calculator",function () {
 	});
 
 	describe("bufferValue",function () {
-		it("should return 0",function () {
-			expect(calculator.bufferValue()).toBe("0");
-		});
 		it("should return 1 after pressing 1",function () {
 			calculator.press(1);
 			expect(calculator.bufferValue()).toBe("1");
@@ -95,6 +92,11 @@ describe("Calculator",function () {
 			calculator.press("+");
 			expect(calculator.bufferOperator()).toBe("+");
 		});
+		it("should return null after pressing +,=",function () {
+			calculator.press("+");
+			calculator.press("=");
+			expect(calculator.bufferOperator()).toBe(null);
+		});
 	});
 
 	describe("displayValue",function () {
@@ -103,6 +105,11 @@ describe("Calculator",function () {
 		});
 		it("should return 1 after pressing 1",function () {
 			calculator.press(1);
+			expect(calculator.displayValue()).toBe("1");
+		});
+		it("should be 1 after pressing 1,+",function () {
+			calculator.press(1);
+			calculator.press("+");
 			expect(calculator.displayValue()).toBe("1");
 		});
 		it("should return 2 after pressing 1,+,2",function () {
