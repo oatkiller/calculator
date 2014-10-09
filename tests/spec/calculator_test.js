@@ -31,12 +31,10 @@ describe("calculateRPNExpression",function () {
 		var expression = [2,3,"^"];
 		expect(calculateRPNExpression(expression).toString()).toBe("8");
 	});
-/*
 	it("should correctly calculate 3 4 2 * 1 5 - 2 3 ^ ^ / +",function () {
 		var expression = [3,4,2,"*",1,5,"-",2,3,"^","^","/","+"];
 		expect(calculateRPNExpression(expression).toString()).toBe("3.0001220703125");
 	});
-	*/
 });
 
 describe("rpnFromInfix",function () {
