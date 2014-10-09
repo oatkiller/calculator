@@ -1,3 +1,4 @@
 *.sw[opn]
 .DS_STORE
 *.css
+node_modules
