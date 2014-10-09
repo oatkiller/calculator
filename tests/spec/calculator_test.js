@@ -96,4 +96,27 @@ describe("Calculator",function () {
 			expect(calculator.bufferOperator()).toBe("+");
 		});
 	});
+
+	describe("displayValue",function () {
+		it("should return 0",function () {
+			expect(calculator.displayValue()).toBe("0");
+		});
+		it("should return 1 after pressing 1",function () {
+			calculator.press(1);
+			expect(calculator.displayValue()).toBe("1");
+		});
+		it("should return 2 after pressing 1,+,2",function () {
+			calculator.press(1);
+			calculator.press("+");
+			calculator.press(2);
+			expect(calculator.displayValue()).toBe("2");
+		});
+		it("should return 3 after pressing 1,+,2,=",function () {
+			calculator.press(1);
+			calculator.press("+");
+			calculator.press(2);
+			calculator.press("=");
+			expect(calculator.displayValue()).toBe("3");
+		});
+	});
 });
