@@ -65,4 +65,35 @@ describe("Calculator",function () {
 			expect(calculator.rpnFromInfix(infix)).toEqual(expected);
 		});
 	});
+
+	describe("bufferValue",function () {
+		it("should return 0",function () {
+			expect(calculator.bufferValue()).toBe("0");
+		});
+		it("should return 1 after pressing 1",function () {
+			calculator.press(1);
+			expect(calculator.bufferValue()).toBe("1");
+		});
+		it("should return 11 after pressing 1 and then pressing 1",function () {
+			calculator.press(1);
+			calculator.press(1);
+			expect(calculator.bufferValue()).toBe("11");
+		});
+		it("should return 11. after pressing 1, 1, .",function () {
+			calculator.press(1);
+			calculator.press(1);
+			calculator.press(".");
+			expect(calculator.bufferValue()).toBe("11.");
+		});
+	});
+
+	describe("bufferOperator",function () {
+		it("should return null",function () {
+			expect(calculator.bufferOperator()).toBe(null);
+		});
+		it("should return + after pressing +",function () {
+			calculator.press("+");
+			expect(calculator.bufferOperator()).toBe("+");
+		});
+	});
 });
