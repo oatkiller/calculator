@@ -255,5 +255,34 @@ describe("Calculator",function () {
 			calculator.press("+/-");
 			expect(calculator.displayValue()).toBe("-9");
 		});
+		it("should be 2 after pressing 8,/,2,=,=",function () {
+			calculator.press(8);
+			calculator.press("/");
+			calculator.press(2);
+			calculator.press("=");
+			calculator.press("=");
+			expect(calculator.displayValue()).toBe("2");
+		});
+		it("should be 1 after pressing 8,/,2,=,=,=",function () {
+			calculator.press(8);
+			calculator.press("/");
+			calculator.press(2);
+			calculator.press("=");
+			calculator.press("=");
+			calculator.press("=");
+			expect(calculator.displayValue()).toBe("1");
+		});
+		it("should be 0.125 after pressing 8,/,2,=,=,=,=,=,=",function () {
+			calculator.press(8);
+			calculator.press("/");
+			calculator.press(2);
+			calculator.press("=");
+			calculator.press("=");
+			calculator.press("=");
+			calculator.press("=");
+			calculator.press("=");
+			calculator.press("=");
+			expect(calculator.displayValue()).toBe("0.125");
+		});
 	});
 });
