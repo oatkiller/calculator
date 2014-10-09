@@ -1,9 +1,18 @@
-You need to load this from a web server. Probably doable using
+# JS / jQuery Calculator
 
-`python -m SimpleHTTPServer 8080`
+Provide your users with a basic pocket calculator style widget. 
 
-Then go with
+# Using the Library
+TODO, write this
 
-`open index.html`
+# Viewing the Demo
+Serve the root of the repository from a webserver.
 
-And if you're a total Apple fan, you're probably g2g!
+	python -m SimpleHTTPServer 8080
+	open 'http://localhost:8080'
+
+# Running Tests
+Open SpecRunner.html in a browse
+
+# Gotchas
+The project doesn't use a module system, so several top level variables are exposed.

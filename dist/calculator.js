@@ -10216,6 +10216,9 @@ return jQuery;
 
 }));
 
+;(function( window, undefined ){
+		  'use strict';
+
 var Calculator = (function () {
 	var Calculator = function () {
 		this.buffer = [];
@@ -10271,7 +10274,6 @@ var Calculator = (function () {
 				if (this.bufferNotEmpty()) {
 					this.pushBufferToStack();
 				} else {
-					// TODO
 					this.lastOperand = this.lastResult;
 					this.stack.push(this.lastResult);
 				}
@@ -10294,7 +10296,6 @@ var Calculator = (function () {
 				}
 				this.evaluateStack();
 			} else if (token === this.CLEAR) {
-				// TODO
 				this.lastResult = Big(0);
 				this.buffer.operator = null;
 				this.buffer.length = 0;
@@ -10334,7 +10335,6 @@ var Calculator = (function () {
 			if (this.bufferOperator() !== null) {
 				this.lastOperator = this.bufferOperator();
 				this.stack.push(this.bufferOperator());
-				// TODO
 				this.buffer.operator = null;
 			}
 		},
@@ -10356,7 +10356,6 @@ var Calculator = (function () {
 		// takes a heterogeneous array of numbers and operators (strings) which form
 		// an RPN expression and returns a Big with the value
 		calculateRPNExpression : function (operators) {
-			var result;
 			var stack = [];
 			operators.forEach(function (operator) {
 				if (this.isNumeric(operator)) {
@@ -10427,24 +10426,17 @@ var Calculator = (function () {
 		// an infix expression and calculates an rpn expression.
 		// uses Shunting-yard
 		rpnFromInfix : function (infix) {
-
 			var stack = [];
-
-
-
 			var token;
 			var output = [];
-			var firstOperator
+			var firstOperator;
 			var	secondOperator;
-
 			 
 			for (var index = 0; index < infix.length; index++) {
 				token = infix[index];
-
 				if (this.isNumeric(token)) {
 					output.push(token);
 				} else if (this.tokenIsOperator(token)) {
-
 					firstOperator = token;
 					secondOperator = stack[stack.length - 1];
 
@@ -10466,27 +10458,19 @@ var Calculator = (function () {
 						)
 					) {
 						output.push(secondOperator);
-
 						// pop secondOperator off the stack
 						stack.pop();
-
 						// process next operator
 						secondOperator = stack[stack.length - 1];
 					}
-
 					stack.push(firstOperator);
-
 				} else if (token === "(") {
-
 					stack.push(token);
-
 				} else if (token === ")") {
-
 					// until we reach '('
 					while (stack[stack.length - 1] !== "(") {
 						output.push(stack.pop());
 					}
-
 					// discard '('
 					stack.pop();
 				}
@@ -10504,7 +10488,7 @@ var Calculator = (function () {
 	return Calculator;
 })();
 
-CalculatorController = (function () {
+var CalculatorController = (function () {
 
 	var CalculatorController = function (calculator,element) {
 		this.element = $(element);
@@ -10550,7 +10534,7 @@ CalculatorController = (function () {
 
 })();
 
-CalculatorView = (function () {
+var CalculatorView = (function () {
 
 	var CalculatorView = function (calculator,element) {
 		this.element = $(element);
@@ -10598,3 +10582,26 @@ CalculatorView = (function () {
 	return CalculatorView;
 
 })();
+
+(function ($) {
+	$.fn.calculator = function () {
+		var element = $(this);
+		var calculator = new Calculator;
+
+		var controller = new CalculatorController(calculator,element);
+
+		var view = new CalculatorView(calculator,element);
+
+		$(controller).on("press",function (event,data) {
+			calculator.press(data.role);
+			view.sync();
+		});
+
+		// Make things easy to inspect in development
+		element.data("calculator",calculator);
+		element.data("view",view);
+		element.data("controller",controller);
+	};
+})(jQuery);
+
+}( window ));
