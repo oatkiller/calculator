@@ -10,14 +10,32 @@ describe("calculator view", function () {
 		element.remove();
 	});
 
-	it("should fire an event with role == 6 when the 6 button is pressed",function () {
+	it("should show the calculator's displayValue immediately",function () {
+		var expected = "fake display value";
+		spyOn(Calculator.prototype,"displayValue").and.returnValue(expected);
 		element.calculator();
-		var handler = jasmine.createSpy();
-		element.on("buttonPress",handler);
-		element.find(".button[data-role=\"6\"]").trigger("click");
-		expect(handler).toHaveBeenCalled();
-		expect(handler.calls.count()).toBe(1);
-		expect(handler.calls.argsFor(0)[1].role).toBe(6);
+		expect(element.find("[data-role=\"displayValue\"]").text()).toBe(expected);
+	});
+
+	it("should show the calculator's buffer operator immediately",function () {
+		var expected = "fake buffer operator";
+		spyOn(Calculator.prototype,"bufferOperator").and.returnValue(expected);
+		element.calculator();
+		expect(element.find("[data-role=\"bufferOperator\"]").text()).toBe(expected);
+	});
+
+	it("should show the calculator's buffer operator immediately after pressing +",function () {
+		element.calculator();
+		element.find("[data-role=\"add\"]").trigger("click");
+		expect(element.find("[data-role=\"bufferOperator\"]").text()).toBe("+");
+	});
+
+	it("should show the calculator's display value immediately after pressing + 1 =",function () {
+		element.calculator();
+		element.find("[data-role=\"add\"]").trigger("click");
+		element.find("[data-role=\"1\"]").trigger("click");
+		element.find("[data-role=\"equals\"]").trigger("click");
+		expect(element.find("[data-role=\"displayValue\"]").text()).toBe("1");
 	});
 });
 
