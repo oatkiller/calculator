@@ -118,5 +118,15 @@ describe("Calculator",function () {
 			calculator.press("=");
 			expect(calculator.displayValue()).toBe("3");
 		});
+		it("should return 4 after pressing 1,+,2,=,+,1,=",function () {
+			calculator.press(1);
+			calculator.press("+");
+			calculator.press(2);
+			calculator.press("=");
+			calculator.press("+");
+			calculator.press("1");
+			calculator.press("=");
+			expect(calculator.displayValue()).toBe("4");
+		});
 	});
 });
