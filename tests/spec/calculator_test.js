@@ -96,6 +96,13 @@ describe("calculator view", function () {
 		element.find("[data-role=\"sign-flip\"]").trigger("click");
 		expect(Calculator.prototype.press).toHaveBeenCalledWith("+/-");
 	});
+
+	it("should call calculator.press with '.' when the decimal button is pressed",function () {
+		spyOn(Calculator.prototype,"press");
+		element.calculator();
+		element.find("[data-role=\"decimal\"]").trigger("click");
+		expect(Calculator.prototype.press).toHaveBeenCalledWith(".");
+	});
 });
 
 describe("Calculator",function () {
